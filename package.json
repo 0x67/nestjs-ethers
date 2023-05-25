@@ -1,8 +1,8 @@
 {
-  "name": "nestjs-ethers",
+  "name": "@steadefi/nestjs-ethers",
   "version": "1.0.0",
   "description": "The ethers.js library for NestJS",
-  "author": "Blockcoders Engineering <hello@blockcoders.io>",
+  "author": "Steadefi <gabriel@steadefi.com>",
   "license": "Apache",
   "readmeFilename": "README.md",
   "main": "dist/index.js",
@@ -39,10 +39,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/blockcoders/nestjs-ethers"
+    "url": "https://github.com/0x67/nestjs-ethers"
   },
-  "homepage": "https://github.com/blockcoders/nestjs-ethers/blob/main/README.md",
-  "bugs": "https://github.com/blockcoders/nestjs-ethers/issues",
+  "homepage": "https://github.com/0x67/nestjs-ethers/blob/main/README.md",
+  "bugs": "https://github.com/0x67/nestjs-ethers/issues",
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
