@@ -9,6 +9,7 @@ import {
   PocketProvider,
   StaticJsonRpcProvider,
   AnkrProvider,
+  WebSocketProvider,
 } from '@ethersproject/providers'
 import { ConnectionInfo } from '@ethersproject/web'
 import { Provider } from '@nestjs/common'
@@ -27,7 +28,9 @@ import { EthersModuleOptions, EthersModuleAsyncOptions } from './ethers.interfac
 import { EthersSigner } from './ethers.signer'
 import { getEthersToken, getContractToken, getSignerToken, getNetwork, isBinanceNetwork } from './ethers.utils'
 
-export async function createBaseProvider(options: EthersModuleOptions): Promise<BaseProvider | AbstractProvider> {
+export async function createBaseProvider(
+  options: EthersModuleOptions,
+): Promise<BaseProvider | AbstractProvider | WebSocketProvider> {
   const {
     network = MAINNET_NETWORK,
     quorum = 1,
@@ -43,6 +46,8 @@ export async function createBaseProvider(options: EthersModuleOptions): Promise<
     ankr,
     cloudflare = false,
     custom,
+    wss = false,
+    wssUrl,
   } = options
 
   if (disableEthersLogger) {
@@ -53,6 +58,12 @@ export async function createBaseProvider(options: EthersModuleOptions): Promise<
 
   if (!useDefaultProvider) {
     const providers: Array<BaseProvider> = []
+
+    if (wss && wssUrl) {
+      const wssProvider = new WebSocketProvider(wssUrl)
+
+      return wssProvider
+    }
 
     if (alchemy) {
       providers.push(new AlchemyProvider(providerNetwork, alchemy))
