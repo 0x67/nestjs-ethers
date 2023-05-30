@@ -22,6 +22,7 @@ import {
   BscscanProvider,
   EthereumMoralisProvider,
   getFallbackProvider,
+  getMulticallProvider,
   getNetworkDefaultProvider,
 } from './ethers.custom-rpcs'
 import { EthersModuleOptions, EthersModuleAsyncOptions } from './ethers.interface'
@@ -48,6 +49,7 @@ export async function createBaseProvider(
     custom,
     wss = false,
     wssUrl,
+    batched = false,
   } = options
 
   if (disableEthersLogger) {
@@ -60,7 +62,9 @@ export async function createBaseProvider(
     const providers: Array<BaseProvider> = []
 
     if (wss && wssUrl) {
-      const wssProvider = new WebSocketProvider(wssUrl)
+      const wssProvider = new WebSocketProvider(wssUrl, network)
+
+      await wssProvider.ready
 
       return wssProvider
     }
@@ -117,7 +121,13 @@ export async function createBaseProvider(
       })
     }
 
-    return getFallbackProvider(providers, quorum, waitUntilIsConnected)
+    const fallbackProvider = await getFallbackProvider(providers, quorum, waitUntilIsConnected)
+
+    if (batched) {
+      return getMulticallProvider(fallbackProvider)
+    }
+
+    return fallbackProvider
   }
 
   /**

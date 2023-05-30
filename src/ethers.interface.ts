@@ -39,6 +39,7 @@ export interface ProviderOptions {
   quorum?: number | undefined
   wss?: boolean | undefined
   wssUrl?: string | undefined
+  batched?: boolean | undefined
 }
 
 export interface EthersModuleOptions extends ProviderOptions {
